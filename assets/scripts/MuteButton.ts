@@ -14,19 +14,32 @@ const {ccclass, property} = cc._decorator;
 export default class NewClass extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
+    bool = false;
 
-    onLoad () {
+    @property(cc.SpriteFrame)
+    mute: cc.SpriteFrame = null;
 
-    }
+    @property(cc.SpriteFrame)
+    unmute: cc.SpriteFrame = null;
+
+    // onLoad () {}
 
     start () {
+        
     }
 
+    onClick() {
+            var sprite = this.getComponent(cc.Sprite);
+        if(this.bool)
+        {
+            sprite.spriteFrame = this.unmute;
+            this.bool = false;
+        }    
+        else
+        {
+            sprite.spriteFrame = this.mute;
+            this.bool = true;
+        }   
+    }
     // update (dt) {}
-
-    onPlayBtnClicked () {
-        this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
-            cc.director.loadScene("InGame");
-        })));
-    }
 }

@@ -13,20 +13,19 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
+    @property(cc.Node)
+    AnhSang: cc.Node = null;
+
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-
-    }
+    // onLoad () {}
 
     start () {
+        this.AnhSang.runAction(cc.repeatForever(cc.sequence(cc.delayTime(0.2),cc.rotateBy(1,5),cc.delayTime(0.2),cc.rotateBy(1,-5))));
+        var act1 = cc.moveTo(1,this.node.x,this.node.y + 6);
+        var act2 = cc.moveTo(1,this.node.x,this.node.y - 6);
+        this.node.runAction(cc.repeatForever(cc.sequence(act2,act1)));
     }
 
     // update (dt) {}
-
-    onPlayBtnClicked () {
-        this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
-            cc.director.loadScene("InGame");
-        })));
-    }
 }

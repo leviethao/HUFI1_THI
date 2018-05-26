@@ -1403,8 +1403,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 13,
-      "y": 96
+      "x": 0,
+      "y": 100
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1550,7 +1550,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -39
+      "y": -40
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1696,7 +1696,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -198
+      "y": -180
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2074,7 +2074,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 193,
+      "width": 369,
       "height": 40
     },
     "_rotationX": 0,
@@ -2109,7 +2109,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "Tap to play",
+    "_N$string": "Tap and Hold to Play",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
