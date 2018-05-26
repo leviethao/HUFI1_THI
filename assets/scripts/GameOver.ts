@@ -31,7 +31,7 @@ export default class NewClass extends cc.Component {
 
     onLoad () {
         this.scoreLabel.string = "Score: " + cc.sys.localStorage.getItem("score");
-        this.bestScoreLabel.string = "Best core: " + cc.sys.localStorage.getItem("bestScore");
+        this.bestScoreLabel.string = cc.sys.localStorage.getItem("bestScore");
     }
 
     start () {
