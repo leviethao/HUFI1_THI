@@ -67,7 +67,6 @@ export default class NewClass extends cc.Component {
         
         this.node.y += this.moveSpeed * dt;
         this.delay=this.delay+dt;
-        cc.log("Test delay: "+this.delay);
         if(this.delay>5)
         {
             this.moveSpeed=this.savespeed;
