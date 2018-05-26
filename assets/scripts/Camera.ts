@@ -13,22 +13,24 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property
-    shrinkSpeed: number = 0;
+    @property(cc.Node)
+    target: cc.Node = null;
 
-    @property
-    shrinkDefault: number = 0;
-
-    @property
-    playerMoveSpeed: number = 0;
+    @property(cc.Canvas)
+    canvas: cc.Canvas = null;
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-        
+
     }
 
     // update (dt) {}
+
+    lateUpdate () {
+        this.node.position = this.target.position;
+        this.node.y = this.target.y + this.canvas.node.height / 4;
+    }
 }

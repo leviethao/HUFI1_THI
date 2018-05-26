@@ -9,26 +9,33 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-
+import InGame from "./InGame";
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property
-    shrinkSpeed: number = 0;
-
-    @property
-    shrinkDefault: number = 0;
-
-    @property
-    playerMoveSpeed: number = 0;
-
+    canvasNode: cc.Node = null;
+    item: cc.Node = null;
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {}
 
-    start () {
+    init () {
+        this.canvasNode.getComponent(InGame).camera.getComponent(cc.Camera).addTarget(this.node);
         
+        this.item = this.node.getChildByName("Item");
+
+        let randWidth = Math.floor(Math.random() * this.canvasNode.width * 0.7) + this.canvasNode.width / 6;
+        this.item.width = randWidth;
+
+        let randHeight = Math.floor(Math.random() * this.canvasNode.height / 2) + this.item.height;
+        this.item.height = randHeight;
     }
 
-    // update (dt) {}
+    start () {
+
+    }
+
+    update (dt) {
+        //this.node.y -= 100 * dt;
+    }
 }
