@@ -13,6 +13,10 @@ const {ccclass, property} = cc._decorator;
 import CoupleEntity from "./CoupleEntity";
 import SimpleEntity from "./SimpleEntity";
 import Player from "./Player";
+import PrefabDeviation from "./PrefabDeviation";
+import PrefabSlow from "./PrefabSlow";
+import PrefabDoublePoint from "./PrefabDoublePoint";
+import PrefabImmortal from "./PrefabImmortal";
 
 
 @ccclass
@@ -36,9 +40,16 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Node)
     camera: cc.Node = null;
-
+     @property(cc.Prefab)
+    PrefabDeviation: cc.Prefab = null;
+    @property(cc.Prefab)
+    PrefabSlow: cc.Prefab = null;
+    @property(cc.Prefab)
+    PrefabDoublePoint: cc.Prefab = null;
+    @property(cc.Prefab)
+    PrefabImmortal: cc.Prefab = null;
     prevEntityPosY: number; 
-
+    delay: number;
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
@@ -47,11 +58,18 @@ export default class NewClass extends cc.Component {
 
     start () {
         this.spawnEntity(200);
+        this.delay=0;
     }
 
     update (dt) {
         if (this.prevEntityPosY - this.camera.y <= this.node.height / 2) {
             this.spawnEntity(this.prevEntityPosY + this.node.height / 2);
+        }
+        this.delay=this.delay+dt;
+        if(this.delay>2)
+        {
+            this.delay=0;
+            this.spawmCN();
         }
     }
 
@@ -90,7 +108,43 @@ export default class NewClass extends cc.Component {
         entity.position = new cc.Vec2(0, Math.max(yPos, d1));
         this.prevEntityPosY = entity.y;
     }
+    spawmCN()
+    {
+        let random=Math.round(cc.random0To1()*3);
+        cc.log("Test random: "+random);
+        let CN: cc.Node;
+        if(random==0)
+        {
+            CN = cc.instantiate(this.PrefabDeviation);
+            CN.getComponent(PrefabDeviation).canvas =this.node.getComponent(cc.Canvas);
+            CN.getComponent(PrefabDeviation).init();
+            this.node.addChild(CN);
+            
+        }
+        else if(random==1)
+        {
+            CN = cc.instantiate(this.PrefabSlow);
+            CN.getComponent(PrefabSlow).canvas = this.node.getComponent(cc.Canvas);
+            CN.getComponent(PrefabSlow).init();
+            this.node.addChild(CN);
+        }
+        else if(random==2)
+        {
+            CN = cc.instantiate(this.PrefabDoublePoint);
+            CN.getComponent(PrefabDoublePoint).canvas = this.node.getComponent(cc.Canvas);
+            CN.getComponent(PrefabDoublePoint).init();
+            this.node.addChild(CN);
+        }
+        else if(random==3)
+        {
+            CN = cc.instantiate(this.PrefabImmortal);
+            CN.getComponent(PrefabImmortal).canvas = this.node.getComponent(cc.Canvas);
+            CN.getComponent(PrefabImmortal).init();
+            this.node.addChild(CN);
+        }
 
+        this.camera.getComponent(cc.Camera).addTarget(CN);
+    }
     gameOver () {
         this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
             cc.director.loadScene("GameOver");
@@ -147,5 +201,6 @@ export default class NewClass extends cc.Component {
 
         return d2;
     }
+    
 
 }

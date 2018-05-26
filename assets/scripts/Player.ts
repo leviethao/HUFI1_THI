@@ -32,8 +32,10 @@ export default class NewClass extends cc.Component {
     moveSpeed: number = 0;
     animFlag1: boolean = false;
     animFlag2: boolean = false;
+    delay: number = 0;
+    status:number=0;//khong bt, 1 bat tu
     // LIFE-CYCLE CALLBACKS:
-
+    savespeed: number;
     onLoad () {
         this.init();
         this.canvas.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart.bind(this));
@@ -56,7 +58,7 @@ export default class NewClass extends cc.Component {
     }
 
     start () {
-
+        this.savespeed=this.moveSpeed;
     }
 
     update (dt) {
@@ -64,6 +66,13 @@ export default class NewClass extends cc.Component {
         this.shrinkBack(dt);
         
         this.node.y += this.moveSpeed * dt;
+        this.delay=this.delay+dt;
+        cc.log("Test delay: "+this.delay);
+        if(this.delay>5)
+        {
+            this.moveSpeed=this.savespeed;
+            this.status=0;
+        }
     }
 
     onTouchStart () {
