@@ -50,7 +50,7 @@ export default class NewClass extends cc.Component {
     levelFactor: number = 0;
     score: number = 0;
     moveSpeedFactor: number = 0;
-    
+    isStart: boolean = true;
 
 
 
@@ -67,6 +67,8 @@ export default class NewClass extends cc.Component {
     }
 
     update (dt) {
+        this.tutorial();
+
         if (this.prevEntityPosY - this.camera.y <= this.node.height / 2) {
             this.spawnEntity(this.prevEntityPosY + this.node.height / 2);
         }
@@ -183,6 +185,13 @@ export default class NewClass extends cc.Component {
 
     updateScoreLabel () {
         this.scoreLabel.string = this.score.toString();
+    }
+
+    tutorial () {
+        if (this.isStart) {
+
+            this.isStart = false;
+        }
     }
 
 }
