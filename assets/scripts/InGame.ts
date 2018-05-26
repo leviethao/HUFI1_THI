@@ -12,6 +12,7 @@ const {ccclass, property} = cc._decorator;
 
 import CoupleEntity from "./CoupleEntity";
 import SimpleEntity from "./SimpleEntity";
+import Player from "./Player";
 
 
 @ccclass
@@ -76,7 +77,17 @@ export default class NewClass extends cc.Component {
         entity.getComponent(entityComponent).canvasNode = this.node;
         entity.getComponent(entityComponent).init();
 
-        entity.position = new cc.Vec2(0, yPos);
+
+        let d2: number = this.computeD2(entity);
+        let playerComponent = this.player.getComponent(Player);
+        let d1Needed = (d2 * playerComponent.moveSpeed) / playerComponent.shrinkSpeed;
+        let maxY = 100;
+        let minY = 50;
+        let randY = Math.floor(Math.random() * maxY + minY);
+        let d1 = d1Needed + randY;
+
+
+        entity.position = new cc.Vec2(0, Math.max(yPos, d1));
         this.prevEntityPosY = entity.y;
     }
 
@@ -113,17 +124,28 @@ export default class NewClass extends cc.Component {
 
     computeD2 (entity: cc.Node) : number {
         let playerRightItem: cc.Node = this.player.getChildByName("RightItem");
+        let d2:number = 0;
 
         switch (entity.name) {
             case "SimpleEntity": {
                 let entityItem = entity.getChildByName("Item");
-                if (playerRightItem.x - playerRightItem.width / 2 < entityItem.width / 2) {
-                    return entityItem.width / 2 - (playerRightItem.x - playerRightItem.width / 2);
+                if (playerRightItem.x - playerRightItem.width / 2 <= entityItem.width / 2) {
+                    d2 =  entityItem.width / 2 - (playerRightItem.x - playerRightItem.width / 2);
+                } else {
+                    d2 = 0;
                 }
             } break;
             case "CoupleEntity" : {
-
+                let entityRightItem = entity.getChildByName("RightItem");
+                if (playerRightItem.x + playerRightItem.width / 2 >= entityRightItem.x - entityRightItem.width) {
+                    d2 = playerRightItem.x + playerRightItem.width / 2 - (entityRightItem.x - entityRightItem.width); 
+                }  else {
+                    d2 = 0;
+                }
             } break;
         }
+
+        return d2;
     }
+
 }

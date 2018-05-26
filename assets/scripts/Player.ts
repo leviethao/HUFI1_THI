@@ -30,6 +30,8 @@ export default class NewClass extends cc.Component {
     shrinkStatus: ShrinkStatus = ShrinkStatus.None;
     shrinkDefault: number;
     moveSpeed: number = 0;
+    animFlag1: boolean = false;
+    animFlag2: boolean = false;
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
@@ -78,27 +80,51 @@ export default class NewClass extends cc.Component {
 
     grownUp (dt: number) {
         if (this.shrinkStatus != ShrinkStatus.GrownUp) {
+            this.animFlag1 = false;
             return;
         }
 
         if (Math.abs(this.leftItem.x) + Math.abs(this.rightItem.x) >= this.canvas.node.width - this.leftItem.width) {
+            this.animFlag1 = false;
             return;
         }
 
         this.leftItem.x -= this.shrinkSpeed * dt;
         this.rightItem.x += this.shrinkSpeed * dt;
+
+        if (!this.animFlag1) {
+            let anim1State = this.leftItem.getComponent(cc.Animation).play("playerRunToLeft");
+            anim1State.wrapMode = cc.WrapMode.Loop;
+            let anim2State = this.rightItem.getComponent(cc.Animation).play("playerRunToRight");
+            anim2State.wrapMode = cc.WrapMode.Loop;
+            this.animFlag1 = true;
+        }
+        
     }
 
     shrinkBack (dt: number) {
         if (this.shrinkStatus != ShrinkStatus.ShrinkBack) {
+            this.animFlag2 = false;
             return;
         }
 
-        if (Math.abs(this.leftItem.x) + Math.abs(this.rightItem.x) <= this.leftItem.width + 4) {
+        if (Math.abs(this.leftItem.x) + Math.abs(this.rightItem.x) <= this.leftItem.width) {
+            this.animFlag2 = false;
             return;
         }
 
         this.leftItem.x += this.shrinkSpeed * dt;
         this.rightItem.x -= this.shrinkSpeed * dt;
+        
+        
+        if (!this.animFlag2) {
+            let anim1State = this.leftItem.getComponent(cc.Animation).play("playerRunToRight");
+            anim1State.wrapMode = cc.WrapMode.Loop;
+    
+            let anim2State = this.rightItem.getComponent(cc.Animation).play("playerRunToLeft");
+            anim2State.wrapMode = cc.WrapMode.Loop;
+            this.animFlag2 = true;   
+        }
     }
+
 }
