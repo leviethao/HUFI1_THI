@@ -26,7 +26,7 @@ export default class NewClass extends cc.Component {
     onClick() {
         var click = this.getComponent(cc.AudioSource);
         click.play();
-        cc.director.loadScene("Ingame");
+        cc.director.loadScene("InGame");
     }
 
     // update (dt) {}
