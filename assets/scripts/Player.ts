@@ -23,6 +23,7 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Canvas)
     canvas: cc.Canvas = null;
+    
 
     leftItem: cc.Node = null;
     rightItem: cc.Node = null;
@@ -39,6 +40,8 @@ export default class NewClass extends cc.Component {
         this.canvas.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart.bind(this));
         this.canvas.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove.bind(this));
         this.canvas.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd.bind(this));
+
+        cc.director.getCollisionManager().enabled = true;
     }
 
     init () {
@@ -84,7 +87,8 @@ export default class NewClass extends cc.Component {
             return;
         }
 
-        if (Math.abs(this.leftItem.x) + Math.abs(this.rightItem.x) >= this.canvas.node.width - this.leftItem.width) {
+        let street = this.canvas.node.getComponent(InGame).street;
+        if (Math.abs(this.leftItem.x) + Math.abs(this.rightItem.x) >= street.width - this.leftItem.width) {
             this.animFlag1 = false;
             return;
         }
@@ -124,6 +128,24 @@ export default class NewClass extends cc.Component {
             let anim2State = this.rightItem.getComponent(cc.Animation).play("playerRunToLeft");
             anim2State.wrapMode = cc.WrapMode.Loop;
             this.animFlag2 = true;   
+        }
+    }
+
+    onCollisionEnter (other) {
+        
+    }
+
+    onCollisionStay (other) {
+       
+    }
+
+    onCollisionExit (other) {
+        switch (other.tag) {
+            case 3: { // score
+                 if (this.node.y > other.node.y) {
+                     this.canvas.node.getComponent(InGame).gainScore();
+                 }
+            } break;
         }
     }
 

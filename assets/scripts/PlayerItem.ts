@@ -10,8 +10,12 @@
 
 const {ccclass, property} = cc._decorator;
 
+import InGame from "./InGame";
+
 @ccclass
 export default class NewClass extends cc.Component {
+    @property(cc.Canvas)
+    canvas: cc.Canvas = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -27,6 +31,16 @@ export default class NewClass extends cc.Component {
     // update (dt) {}
 
     onCollisionEnter (other, self) {
-        console.log("COLLIDED");
+        switch (other.tag) {
+            case 0: { //left player
+                this.canvas.node.getComponent(InGame).gameOver();
+            } break;
+            case 1: {//right player
+                this.canvas.node.getComponent(InGame).gameOver();
+            } break;
+            case 2: { //entity
+                this.canvas.node.getComponent(InGame).gameOver();
+            } break;
+        }
     }
 }

@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import InGame from "./InGame";
+import GameSetting from "./GameSetting";
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -24,11 +25,21 @@ export default class NewClass extends cc.Component {
         
         this.item = this.node.getChildByName("Item");
 
-        let randWidth = Math.floor(Math.random() * this.canvasNode.width * 0.7) + this.canvasNode.width / 6;
-        this.item.width = randWidth;
+        // let randWidth = Math.floor(Math.random() * this.canvasNode.width * 0.7) + this.canvasNode.width / 6;
+        // this.item.width = randWidth;
 
-        let randHeight = Math.floor(Math.random() * this.canvasNode.height / 2) + this.item.height;
-        this.item.height = randHeight;
+        // let randHeight = Math.floor(Math.random() * this.canvasNode.height / 2) + this.item.height;
+        // this.item.height = randHeight;
+
+        let entityList = this.canvasNode.getComponent(InGame).gameSetting.getComponent(GameSetting).entityList;
+        let randEntity = Math.floor(Math.random() * entityList.length);
+        this.item.getComponent(cc.Sprite).spriteFrame = entityList[randEntity].getComponent(cc.Sprite).spriteFrame.clone();
+        this.item.setContentSize(entityList[randEntity].getContentSize());
+
+        this.item.getComponent(cc.BoxCollider).size.width = this.item.getContentSize().width;
+        this.item.getComponent(cc.BoxCollider).size.height = this.item.getContentSize().height;
+
+        this.node.getComponent(cc.BoxCollider).size = cc.size(this.canvasNode.width, this.item.height);
     }
 
     start () {

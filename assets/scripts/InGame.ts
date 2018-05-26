@@ -13,6 +13,7 @@ const {ccclass, property} = cc._decorator;
 import CoupleEntity from "./CoupleEntity";
 import SimpleEntity from "./SimpleEntity";
 import Player from "./Player";
+import GameSetting from "./GameSetting";
 
 
 @ccclass
@@ -37,22 +38,40 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     camera: cc.Node = null;
 
-    prevEntityPosY: number; 
+    @property(cc.Label)
+    scoreLabel: cc.Label = null;
+
+    @property(cc.Node)
+    street: cc.Node = null;
+
+    prevEntityPosY: number;
+    entityList: cc.Node[] = [];
+    level: number = 0;
+    levelFactor: number = 0;
+    score: number = 0;
+    moveSpeedFactor: number = 0;
+    
+
+
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.pauseMenu.active = false;
+        this.levelFactor = this.gameSetting.getComponent(GameSetting).levelFactor;
+        this.moveSpeedFactor = this.gameSetting.getComponent(GameSetting).moveSpeedFactor;
     }
 
     start () {
-        this.spawnEntity(200);
+        this.spawnEntity(this.node.height * 0.7);
     }
 
     update (dt) {
         if (this.prevEntityPosY - this.camera.y <= this.node.height / 2) {
             this.spawnEntity(this.prevEntityPosY + this.node.height / 2);
         }
+
+        this.levelUp();
     }
 
     spawnEntity (yPos: number) {
@@ -146,6 +165,24 @@ export default class NewClass extends cc.Component {
         }
 
         return d2;
+    }
+
+    gainScore () {
+        this.score++;
+        this.updateScoreLabel();
+    }
+
+    levelUp () {
+        if (this.score - (this.level * this.levelFactor) >= this.levelFactor){
+            this.level++;
+            this.player.getComponent(Player).moveSpeed += this.moveSpeedFactor;
+            console.log("AALEVEL: " + this.level);
+            console.log("AASPEED: " + this.player.getComponent(Player).moveSpeed);
+        }
+    }
+
+    updateScoreLabel () {
+        this.scoreLabel.string = this.score.toString();
     }
 
 }

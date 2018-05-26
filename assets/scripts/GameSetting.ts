@@ -22,6 +22,14 @@ export default class NewClass extends cc.Component {
     @property
     playerMoveSpeed: number = 0;
 
+    @property([cc.Node])
+    entityList: cc.Node[] = [];
+
+    @property
+    levelFactor: number = 0;
+
+    @property
+    moveSpeedFactor: number = 0;
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
