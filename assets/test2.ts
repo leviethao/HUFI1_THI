@@ -13,15 +13,14 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property
-    enable: boolean;
-
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-
+        var act1 = cc.moveTo(1,this.node.x,this.node.y + 6);
+        var act2 = cc.moveTo(1,this.node.x,this.node.y - 6);
+        this.node.runAction(cc.repeatForever(cc.sequence(act2,act1)));
     }
 
     // update (dt) {}

@@ -12,13 +12,14 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
-    
+
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-
+        this.node.runAction(cc.repeatForever(cc.sequence(cc.delayTime(0.2),cc.rotateBy(1,5),cc.delayTime(0.2),cc.rotateBy(1,-5))));
     }
 
     // update (dt) {}

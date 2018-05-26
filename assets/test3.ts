@@ -18,15 +18,9 @@ export default class NewClass extends cc.Component {
     // onLoad () {}
 
     start () {
-        var act1 = cc.scaleBy(1,1.2);
-        var act2 = cc.scaleBy(1,5/6);
-        this.node.runAction(cc.repeatForever(cc.sequence(act1,act2)));
-    }
-
-    onClick() {
-        var click = this.getComponent(cc.AudioSource);
-        click.play();
-        cc.director.loadScene("InGame");
+        // var act1 = cc.scaleBy(1,1.2);
+        // var act2 = cc.scaleBy(1,5/6);
+        // this.node.runAction(cc.repeatForever(cc.sequence(act1,act2,cc.delayTime(0.2))));
     }
 
     // update (dt) {}

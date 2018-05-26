@@ -142,6 +142,7 @@ export default class NewClass extends cc.Component {
     onPauseBtnClicked () {
         this.pauseMenu.active = true;
         cc.director.pause();
+        
     }
 
     onResumeBtnClicked () {
