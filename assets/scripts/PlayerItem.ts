@@ -13,38 +13,51 @@ const {ccclass, property} = cc._decorator;
 import InGame from "./InGame";
 import Camera from "./Camera";
 import Player from "./Player";
-@ccclass
-export default class NewClass extends cc.Component {
+ @ccclass
+ export default class NewClass extends cc.Component {
     @property(cc.Canvas)
     canvas: cc.Canvas = null;
     speed:number;
     onLoad () {
-        cc.director.getCollisionManager().enabled = true;
-        cc.director.getCollisionManager().enabledDebugDraw = true;
+       
     }
 
     start () {
         this.speed=this.canvas.node.getComponent(InGame).player.getComponent(Player).moveSpeed;
     }
+
     update (dt) {
+        
     }
 
     onCollisionEnter (other, self) {
-        switch (other.tag) {
-            case 0: { 
-            } break;
-            case 3:
-            {
-                cc.log("Bat tu");
-                this.canvas.node.getComponent(InGame).player.getComponent(Player).status=1;
-                this.canvas.node.getComponent(InGame).player.getComponent(Player).delay=0;
-            }break;
-            case 4: {  
-                cc.log("Slow");
-                this.canvas.node.getComponent(InGame).player.getComponent(Player).moveSpeed= this.speed-300;
-                this.canvas.node.getComponent(InGame).player.getComponent(Player).delay=0;
-                cc.log("Test spped: "+ this.canvas.node.getComponent(InGame).player.getComponent(Player).moveSpeed);             
-            } break;
+        // switch (other.tag) {
+        //     case 0: 
+        //     { 
+        //     } break;
+        //     case 1: 
+        //     { 
+        //     } break;
+        //     case 2:
+        //     {
+        //         this.canvas.node.getComponent(InGame).player.getComponent(Player).status=1;
+        //         this.canvas.node.getComponent(InGame).player.getComponent(Player).delay=0;
+        //     }break;
+        //     case 3: 
+        //     {  
+        //         this.canvas.node.getComponent(InGame).player.getComponent(Player).moveSpeed= this.speed-300;
+        //         this.canvas.node.getComponent(InGame).player.getComponent(Player).delay=0;        
+        //     } break;
+        // }
+        if (other.tag == 0)
+        {
+                 this.canvas.node.getComponent(InGame).player.getComponent(Player).status=1;
+                 this.canvas.node.getComponent(InGame).player.getComponent(Player).delay=0;
+        }
+        else if (other.tag == 1)
+        {
+                 this.canvas.node.getComponent(InGame).player.getComponent(Player).moveSpeed= this.speed-300;
+                 this.canvas.node.getComponent(InGame).player.getComponent(Player).delay=0;      
         }
     }
 }
