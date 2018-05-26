@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "60cba28d-a79c-43a0-aed1-71df083c6399",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "LogoGame": {
+      "ver": "1.0.3",
+      "uuid": "21a89f20-cfcd-4bf4-a3d0-acee06a33803",
+      "rawTextureUuid": "60cba28d-a79c-43a0-aed1-71df083c6399",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 733,
+      "height": 453,
+      "rawWidth": 733,
+      "rawHeight": 453,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
