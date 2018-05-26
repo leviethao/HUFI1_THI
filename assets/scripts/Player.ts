@@ -108,7 +108,7 @@ export default class NewClass extends cc.Component {
             return;
         }
 
-        if (Math.abs(this.leftItem.x) + Math.abs(this.rightItem.x) <= this.leftItem.width + 4) {
+        if (Math.abs(this.leftItem.x) + Math.abs(this.rightItem.x) <= this.leftItem.width) {
             this.animFlag2 = false;
             return;
         }
@@ -126,4 +126,5 @@ export default class NewClass extends cc.Component {
             this.animFlag2 = true;   
         }
     }
+
 }
