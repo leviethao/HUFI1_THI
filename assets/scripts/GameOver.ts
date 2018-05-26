@@ -20,6 +20,12 @@ export default class NewClass extends cc.Component {
     @property(cc.Label)
     bestScoreLabel: cc.Label = null;
 
+    @property(cc.Node)
+    ads: cc.Node = null;
+
+    @property(cc.Node)
+    gameOverForm: cc.Node = null;
+
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -29,7 +35,8 @@ export default class NewClass extends cc.Component {
     }
 
     start () {
-
+        this.gameOverForm.active = false;
+        this.ads.active = true;
     }
 
     // update (dt) {}
@@ -48,5 +55,10 @@ export default class NewClass extends cc.Component {
 
     onExitBtnClicked () {
         cc.game.end();
+    }
+
+    onQuitAdsBtnClicked () {
+        this.ads.active = false;
+        this.gameOverForm.active = true;
     }
 }
