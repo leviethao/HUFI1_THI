@@ -63,6 +63,11 @@ export default class NewClass extends cc.Component {
     }
 
     update (dt) {
+
+        if (this.canvas.node.getComponent(InGame).isStarted == false) {
+            return;
+        }
+        
         this.grownUp(dt);
         this.shrinkBack(dt);
         
@@ -79,6 +84,8 @@ export default class NewClass extends cc.Component {
 
     onTouchEnd () {
         this.shrinkStatus = ShrinkStatus.ShrinkBack;
+
+        this.canvas.node.getComponent(InGame).disableTutorial();
     }
 
     grownUp (dt: number) {

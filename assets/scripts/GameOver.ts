@@ -13,19 +13,40 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
 
-    @property
-    text: string = 'hello';
+    @property(cc.Label)
+    scoreLabel: cc.Label = null;
+
+    @property(cc.Label)
+    bestScoreLabel: cc.Label = null;
+
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {
+        this.scoreLabel.string = "Score: " + cc.sys.localStorage.getItem("score");
+        this.bestScoreLabel.string = "Best core: " + cc.sys.localStorage.getItem("bestScore");
+    }
 
     start () {
 
     }
 
     // update (dt) {}
+
+    onReplayBtnClicked () {
+        this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
+            cc.director.loadScene("InGame");
+        })));
+    }
+
+    onMainMenuBtnClicked () {
+        this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
+            cc.director.loadScene("GameStart");
+        })));
+    }
+
+    onExitBtnClicked () {
+        cc.game.end();
+    }
 }

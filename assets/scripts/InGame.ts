@@ -44,13 +44,19 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     street: cc.Node = null;
 
+    @property(cc.Node)
+    tutorialNode: cc.Node = null;
+
+    @property(cc.Node)
+    Ui: cc.Node = null;
+
     prevEntityPosY: number;
     entityList: cc.Node[] = [];
     level: number = 0;
     levelFactor: number = 0;
     score: number = 0;
     moveSpeedFactor: number = 0;
-    isStart: boolean = true;
+    isStarted: boolean = false;
 
 
 
@@ -64,10 +70,10 @@ export default class NewClass extends cc.Component {
 
     start () {
         this.spawnEntity(this.node.height * 0.7);
+        this.enableTutorial();
     }
 
     update (dt) {
-        this.tutorial();
 
         if (this.prevEntityPosY - this.camera.y <= this.node.height / 2) {
             this.spawnEntity(this.prevEntityPosY + this.node.height / 2);
@@ -110,9 +116,24 @@ export default class NewClass extends cc.Component {
 
         entity.position = new cc.Vec2(0, Math.max(yPos, d1));
         this.prevEntityPosY = entity.y;
+        
+        this.Ui.setLocalZOrder(entity.getLocalZOrder() + 1);
     }
 
     gameOver () {
+        //save score
+        let best = cc.sys.localStorage.getItem("bestScore");
+        if (best == null) {
+            cc.sys.localStorage.setItem("bestScore", this.score);   
+        }
+
+        if (this.score > best) {
+            //save best score
+            cc.sys.localStorage.setItem("bestScore", this.score);
+        }
+        
+        cc.sys.localStorage.setItem("score", this.score);
+
         this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
             cc.director.loadScene("GameOver");
         })));
@@ -130,12 +151,16 @@ export default class NewClass extends cc.Component {
 
     onReplayBtnClicked () {
         cc.director.resume();
-        cc.director.loadScene("InGame");
+        this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
+            cc.director.loadScene("InGame");
+        })));
     }
 
     onMainMenuBtnClicked () {
         cc.director.resume();
-        cc.director.loadScene("GameStart");
+        this.node.runAction(cc.sequence(cc.fadeOut(0.2), cc.callFunc(function () {
+            cc.director.loadScene("GameStart");
+        })));
     }
 
     onExitBtnClicked () {
@@ -178,8 +203,6 @@ export default class NewClass extends cc.Component {
         if (this.score - (this.level * this.levelFactor) >= this.levelFactor){
             this.level++;
             this.player.getComponent(Player).moveSpeed += this.moveSpeedFactor;
-            console.log("AALEVEL: " + this.level);
-            console.log("AASPEED: " + this.player.getComponent(Player).moveSpeed);
         }
     }
 
@@ -187,11 +210,15 @@ export default class NewClass extends cc.Component {
         this.scoreLabel.string = this.score.toString();
     }
 
-    tutorial () {
-        if (this.isStart) {
-
-            this.isStart = false;
+    enableTutorial () {
+        if (!this.isStarted) {
+            this.tutorialNode.runAction(cc.repeatForever(cc.sequence(cc.scaleTo(0.5, 1.1), cc.scaleTo(0.5, 1))));
         }
     }
 
+    disableTutorial () {
+        this.isStarted = true;
+        this.tutorialNode.stopAllActions();
+        this.tutorialNode.active = false;
+    }
 }
